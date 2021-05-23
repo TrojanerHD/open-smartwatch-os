@@ -29,7 +29,7 @@ void drawDate(OswHal* hal, const bool& useMMDDYYYY) {
   hal->gfx()->setTextSize(2);
   hal->gfx()->setTextMiddleAligned();
   hal->gfx()->setTextLeftAligned();
-  hal->gfx()->setTextCursor(120 - hal->gfx()->getTextOfsetColumns(6.9), 80);
+  hal->gfx()->setTextCursor(DISP_W / 2 - hal->gfx()->getTextOfsetColumns(6.9), 80);
 
   hal->gfx()->print(date_Array);
   hal->gfx()->print(", ");
@@ -67,14 +67,18 @@ void drawTime(OswHal* hal) {
   char am[] = "AM";
   char pm[] = "PM";
 
-  hal->gfx()->setTextSize(3);
-  hal->gfx()->setTextMiddleAligned();
+  hal->gfx()->setTextSize(2);
+  uint32_t offsetX = hal->gfx()->getTextOfsetColumns(1);
+
+  hal->gfx()->setTextSize(4);
   hal->gfx()->setTextLeftAligned();
-  hal->gfx()->setTextCursor(120 - hal->gfx()->getTextOfsetColumns(5.5), 120);
+  offsetX += hal->gfx()->getTextOfsetColumns(4);
+  hal->gfx()->setTextCursor(DISP_W / 2 - offsetX, DISP_H / 2);
 
   hal->getLocalTime(&hour, &minute, &second, &afterNoon);
   timeOutput(hal, hour, minute, second);
-  hal->gfx()->print(" ");
+  hal->gfx()->setTextSize(2);
+  hal->gfx()->setTextCursor(DISP_W / 2 + offsetX - hal->gfx()->getTextOfsetColumns(2), (DISP_H - hal->gfx()->getTextOfsetRows(0.5)) / 2 - 2);
   if (afterNoon) {
     hal->gfx()->print(pm);
   } else {
@@ -90,19 +94,21 @@ void drawTime24Hour(OswHal* hal) {
   hal->gfx()->setTextSize(4);
   hal->gfx()->setTextMiddleAligned();
   hal->gfx()->setTextLeftAligned();
-  hal->gfx()->setTextCursor(120 - hal->gfx()->getTextOfsetColumns(4), 120);
+  hal->gfx()->setTextCursor(DISP_W / 2 - hal->gfx()->getTextOfsetColumns(4), DISP_H / 2);
 
   hal->getLocalTime(&hour, &minute, &second);
   timeOutput(hal, hour, minute, second);
 }
 
 void drawSteps(OswHal* hal) {
+  char stepsString[17];
   uint32_t steps = hal->getStepCount();
+  sprintf(stepsString, "%d Steps", steps);
   hal->gfx()->setTextCenterAligned();
   hal->gfx()->setTextSize(2);
-  hal->gfx()->setTextCursor(120, 210 - hal->gfx()->getTextOfsetRows(1) / 2);
+  hal->gfx()->setTextCursor(DISP_W / 2, 210 - hal->gfx()->getTextOfsetRows(1) / 2);
 
-  hal->gfx()->print(steps);
+  hal->gfx()->print(stepsString);
 }
 
 void OswAppWatchfaceDigital::setup(OswHal* hal) {
