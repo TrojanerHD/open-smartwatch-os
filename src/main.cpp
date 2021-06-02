@@ -100,8 +100,8 @@ void core2Worker(void *pvParameters) {
 
 short displayTimeout = 0;
 void setup() {
-  watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceDigital());
+  watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceBinary());
   mainAppSwitcher->registerApp(watchFaceSwitcher);
 #ifdef GPS_EDITION
@@ -125,8 +125,8 @@ void setup() {
   OswConfig::getInstance()->setup();
   OswUI::getInstance()->setup(hal);
 
-  watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceDigital());
+  watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceBinary());
   mainAppSwitcher->registerApp(watchFaceSwitcher);
 
